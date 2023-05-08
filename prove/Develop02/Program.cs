@@ -4,59 +4,54 @@ class Program
 {
     static void Main(string[] args)
     {
-        bool exit = false;
-        Journal journal = new Journal();
-        PromptGenerator prompts = new PromptGenerator();
-        prompts.LoadingPrompts();
-        while(!exit)
+        string[] menu = {"Write New Entry","Display Unsaved Entries","Load File","Display Loaded Entries","Save Entries","Quit Program"}; // list of entry choices
+        //List<string> menu = new List<string>{"Write New Entry","Display Entries","Load File","Save Entries","Quit Program"}; // list of entry choices
+        Console.WriteLine("Welcome To The Journal Program"); // print welcome message only at the start of the program
+        bool runApp = true; // set main loop to run
+        Files listFiles = new Files(); // create 'Files' object - do here because only one is created
+
+        while (runApp) // begin main operation loop
         {
-            Console.Clear();
-            Console.WriteLine("       *Menu*");
-            Console.WriteLine("1.- Adding an entry.");
-            Console.WriteLine("2.- Display all the entries.");
-            Console.WriteLine("3.- Saving a file.");
-            Console.WriteLine("4.- Loading from a file.");
-            Console.WriteLine("5.- Exit.");
-            Console.Write("\nWhat would you like to do? ");
-
-            int option = int.Parse(Console.ReadLine());
-
-            switch (option)
+            Console.WriteLine("\nPlease Select One Of The Following Choices:"); // print user options to screen
+            int x=1;
+            foreach(string option in menu)
             {
-                case 1:
-                    Entry a = new Entry();
-                    if (prompts._lines.Count() > 0)
-                    {
-                        prompts.ChossingRandomPrompts();
-                        a._prompt = prompts._randomPrompt;
-                        a._entry = Console.ReadLine();
-                        journal.AddingEntry(a, prompts);
-                    }
-                    else
-                    {
-                        Console.WriteLine("All the prompts were displayed");
-
-                    }
-                    Console.Write("Press Enter....");
-                    Console.ReadKey();
+                Console.WriteLine($"{x}. {option}");
+                x++;
+            }
+            Console.Write("Your selection? ");
+            int choice = int.Parse(Console.ReadLine()); // get user input
+            switch (choice) // select  next step
+            {
+                case 1: // Write New Entry
+                    Entry newEntry = new Entry(); // create new 'Entry' object - will choose a prompt and set the date
+                    listFiles._addEntry.Add(newEntry); // add entry to list in 'Files'
                     break;
-                case 2:
-                    journal.DisplayingAllTheEntries();
-                    Console.ReadKey();
+                case 2: // Display Unsaved Entries
+                    listFiles.ShowEntries();
                     break;
-                case 3:
-                    journal.SavingToAFile();
-                    Console.ReadKey();
+                case 3: // Load File
+                    listFiles.LoadFileNames(); // load and display available file names
+                    Console.WriteLine("Please type the name of the file to load: "); // ask user to select the desired file
+                    string selection = Console.ReadLine(); 
+                    listFiles.LoadFile(selection);
                     break;
-                case 4:
-                    journal.LoadingFromAFile();
-                    Console.ReadKey();
+                case 4: // Display Previously Saved Entries
+                    listFiles.ShowLoadedEntries();
                     break;
-                case 5:
-                    exit = true;
+                case 5: // Save Entries
+                    Console.WriteLine("Use one of the following existing files or type the name for a new file");
+                    listFiles.LoadFileNames(); // load and display available file names
+                    listFiles._saveFileName = Console.ReadLine(); // get user text entry
+                    listFiles.WriteEntries();
                     break;
+                case 6: // Quit Program
+                    runApp = false;
+                    break;
+                default:
+                    Console.WriteLine($"{choice} is not a valid entry.");
+                    continue;
             }
         }
-
     }
 }
