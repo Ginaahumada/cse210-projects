@@ -4,6 +4,23 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop03 World!");
+        Scripture scripture = new Scripture();
+        Console.Clear();
+        string option = "";
+        Console.WriteLine(scripture.GetScripture());
+        Console.WriteLine("\nPress Enter to continue or type 'quit' to finish\n");
+        
+        do
+        {
+            option = Console.ReadLine();
+            if(option != "quit")
+            {
+                Console.Clear();
+                scripture.HideWords();
+                Console.WriteLine(scripture.GetScripture());
+                Console.WriteLine("\nPress Enter to continue or type 'quit' to finish\n");
+            }
+        }while(option != "quit" & scripture.IsCompletelyHidden() != true);
+        
     }
 }
