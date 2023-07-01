@@ -1,0 +1,5 @@
+674
+SimpleGoal,sxadd,fsfdsf,100,True,100
+EternalGoal,cdsc,dcd,12,24
+CheckListGoal,sad,adas,50,400,3,3,550
+CheckListGoal,xasx,sxas,10,100,10,0,0
